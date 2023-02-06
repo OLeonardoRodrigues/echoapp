@@ -2,7 +2,7 @@ FROM golang:1.19.5-alpine3.17 AS build
 
 WORKDIR /app
 
-COPY server.go models go.mod go.sum ./
+COPY server.go models/ go.mod go.sum ./
 
 RUN go mod download
 
