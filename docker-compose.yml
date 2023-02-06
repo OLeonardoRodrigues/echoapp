@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  echoapp:
+    container_name: echoapp
+    image: echoapp:1.0.0
+    restart: always
+    build:
+      context: .
+    ports:
+      - "8484:8484"
+    environment:
+      - EXTERNAL_PORT=8484
+      - PGDATABASE=echoapp
+      - PGUSER=admin
+      - PGPASSWORD=12345
+      - PGHOST=echoapp_db
+    depends_on:
+      - echoapp_db
+
+  echoapp_db:
+    container_name: echoapp_db
+    image: postgres:15.1-alpine3.17
+    restart: always
+    ports:
+      - "40000:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=echoapp
+    volumes:
+      - ps_data:/var/lib/postgresql/data
+
+volumes:
+  ps_data: {}
